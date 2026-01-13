@@ -1,0 +1,79 @@
+# ===================== 基础通用忽略 (必选) =====================
+# 依赖包目录 (npm/yarn/pnpm/bun 全兼容)
+node_modules/
+# 环境变量文件(本地配置，绝对不上传)
+.env
+.env.local
+.env.*.local
+# 日志文件
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+# 运行时编译/缓存文件
+dist/
+build/
+out/
+coverage/
+tmp/
+temp/
+data/
+
+# ===================== Hono 专属/高频场景忽略 =====================
+# Hono 开发中常用的编译产物目录
+.esbuild/
+.build/
+worker/
+functions/
+# Hono + Cloudflare Workers 场景
+wrangler.toml.local
+.dev.vars
+# Hono + Deno 场景 (Deno 缓存/编译产物)
+.deno/
+deno.lock
+# Hono + Bun 场景 (Bun 专属缓存)
+bun.lockb
+node_modules/.bin
+
+# ===================== 编译/构建工具通用 =====================
+# TypeScript 编译产物
+*.tsbuildinfo
+# tsc 编译的js文件(如果你的源码是ts，编译后生成的js不上传)
+*.js
+!*.config.js
+!*.config.cjs
+!*.config.mjs
+# Rollup/Vite/Webpack 构建产物
+.vite/
+rollup.config.js.*
+
+# ===================== 编辑器/IDE 忽略 (通用) =====================
+.idea/
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ===================== 包管理/发布相关 =====================
+# npm 发布相关
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+# 包体积分析报告
+*.tgz
+stats.html
+
+# ===================== 可选忽略（按需开启，默认注释） =====================
+# 如果你的项目提交时 不需要保留 ts类型声明文件，解开下面注释
+# *.d.ts
+# 如果是纯后端Hono项目，前端静态资源打包后的目录，解开下面注释
+# public/assets/
+# public/build/
