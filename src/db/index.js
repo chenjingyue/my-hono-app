@@ -16,7 +16,7 @@ export function setDB(db) {
 export async function getDB(c) {
     if (!sqliteInstance) {
         // 判断cloudflare的环境
-        const db = createD1(c);
+        const db = await createD1(c);
         if (db){
             sqliteInstance = db;
             return sqliteInstance;
