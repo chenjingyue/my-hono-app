@@ -3,7 +3,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import rootRouter from '../routes/index.js';
 import {getBjDateTime} from "../utils/time.js";
-import globalErrorHandler from "../middleware/ErrorHandler.js"; // Hono内置跨域中间件
+import globalErrorHandler from "../middleware/ErrorHandler.ts"; // Hono内置跨域中间件
 
 
 // 创建Hono实例，等价于Express的 const app = express()

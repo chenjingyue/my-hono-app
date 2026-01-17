@@ -1,6 +1,6 @@
 // 模拟数据库（实际项目中应使用 MongoDB/PostgreSQL 等）
-import AppError from "../utils/AppError.js";
-import {logger} from "../utils/log-core.js";
+import AppError from "../utils/AppError.ts";
+import {logger} from "../utils/log-core.ts";
 // import {getDB} from "../db/index.js";
 import {getDB} from "../db/ts/factory.js";
 import {getBjDateTime} from "../utils/time.js";

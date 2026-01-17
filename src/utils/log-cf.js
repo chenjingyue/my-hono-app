@@ -1,4 +1,4 @@
-// src/platforms/cf-log-core.js
+// src/platforms/cf-log-core.ts
 import { getBjDateTimeWithMs } from './time.js';
 import {isEmptyObject} from "./object-utils.js";
 

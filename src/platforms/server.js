@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 
 import app from "../app/app.js";
 import { serve } from '@hono/node-server';
-import { setLoggerImpl } from '../utils/log-core.js';
+import { setLoggerImpl } from '../utils/log-core.ts';
 import { createNodeLogger } from '../utils/log-node.js';
 // import { setDB } from '../db/index.js';
 // import { getDB } from '../db/sqlite.js';
