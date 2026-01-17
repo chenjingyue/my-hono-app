@@ -1,7 +1,8 @@
 // 模拟数据库（实际项目中应使用 MongoDB/PostgreSQL 等）
 import AppError from "../utils/AppError.js";
 import {logger} from "../utils/log-core.js";
-import {getDB} from "../db/index.js";
+// import {getDB} from "../db/index.js";
+import {getDB} from "../db/ts/factory.js";
 import {getBjDateTime} from "../utils/time.js";
 
 let users = [
@@ -15,7 +16,7 @@ let users = [
 export const userList = async (c) => {
     const db = await getDB(c);
     try {
-        const {results} = await db.prepare('SELECT id, username, email FROM users').all();
+        const {results} = await db.prepare('SELECT id, username, email FROM users').bind().all();
         logger.info(`成功获取 ${results.length} 位用户`);
         return c.json({
             status: 'success',

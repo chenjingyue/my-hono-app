@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "dev:node": "node src/platforms/server.js",
+    "dev:node": "tsx src/platforms/server.js",
     "start:node": "NODE_ENV=prod node src/platforms/server.js",
     "test": "vitest"
   },
@@ -25,7 +25,10 @@
     "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^25.0.9",
     "nodemon": "^3.1.11",
+    "tsx": "^4.21.0",
     "wrangler": "^4.4.0"
   }
 }
