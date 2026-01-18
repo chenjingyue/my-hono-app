@@ -1,5 +1,5 @@
-// src/db/index.js
-import AppError from "../utils/AppError.js";
+// src/db/index.ts
+import AppError from "../utils/AppError.ts";
 import {createD1} from "./d1.js";
 
 let sqliteInstance = null;
