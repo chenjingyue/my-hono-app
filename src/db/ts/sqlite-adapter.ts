@@ -4,12 +4,12 @@ import { fileURLToPath } from 'url';
 import * as path from 'path';
 import * as fs from 'fs';
 import { createRequire } from 'module';
-import {initAllTables} from "./init-tables.js";
+import { initAllTables } from './init-tables.js';
 
-// 声明 better-sqlite3 类型（简化版）
+// ✅ 为 SQLiteStatement 添加泛型方法（实际运行时无影响，仅类型层面）
 interface SQLiteStatement {
-    get(...params: any[]): Record<string, any> | undefined;
-    all(...params: any[]): Record<string, any>[];
+    get<T = Record<string, any>>(...params: any[]): T | undefined;
+    all<T = Record<string, any>>(...params: any[]): T[];
     run(...params: any[]): { lastInsertRowid: number; changes: number };
 }
 
@@ -21,16 +21,14 @@ interface SQLiteDatabase {
 
 async function initTables(db: IDatabaseAdapter) {
     console.log('Initializing tables (Sqlite)...');
-    await initAllTables(db)
+    await initAllTables(db);
     console.log('Tables initialized (Sqlite)');
 }
 
 export class SQLiteDatabaseAdapter implements IDatabaseAdapter {
     private db: SQLiteDatabase | null = null;
 
-    private constructor() {
-        // 私有构造函数，禁止直接 new
-    }
+    private constructor() {}
 
     static async create(): Promise<IDatabaseAdapter> {
         const instance = new SQLiteDatabaseAdapter();
@@ -56,18 +54,8 @@ export class SQLiteDatabaseAdapter implements IDatabaseAdapter {
         const db = sqlite3(dbPath) as SQLiteDatabase;
 
         this.db = db;
-
-
         db.pragma('journal_mode = WAL');
         db.pragma('foreign_keys = ON');
-        //     db.exec(`
-        //   CREATE TABLE IF NOT EXISTS users (
-        //     id INTEGER PRIMARY KEY AUTOINCREMENT,
-        //     username TEXT NOT NULL UNIQUE,
-        //     email TEXT NOT NULL UNIQUE,
-        //     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        //   )
-        // `);
         await initTables(this);
     }
 
@@ -79,9 +67,18 @@ export class SQLiteDatabaseAdapter implements IDatabaseAdapter {
         return {
             bind: (...params: any[]) => {
                 const stmt = this.db!.prepare(sql);
+
                 return {
-                    first: () => Promise.resolve(stmt.get(...params) || null),
-                    all: () => Promise.resolve({ results: stmt.all(...params) }),
+                    // ✅ 泛型方法：实际调用 get()，然后类型断言为 T
+                    first: <T = Record<string, any>>(): Promise<T | null> => {
+                        const result = stmt.get<T>(...params);
+                        return Promise.resolve(result || null);
+                    },
+                    // ✅ 泛型方法：返回 { results: T[] }
+                    all: <T = Record<string, any>>(): Promise<{ results: T[] }> => {
+                        const results = stmt.all<T>(...params);
+                        return Promise.resolve({ results });
+                    },
                     run: (): Promise<IStatementResult> => {
                         const result = stmt.run(...params);
                         return Promise.resolve({

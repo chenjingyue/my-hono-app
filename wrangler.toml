@@ -1,6 +1,6 @@
 # wrangler.toml
 name = "my-hono-app"
-main = "src/worker.js"   # 指向 CF 入口
+main = "src/worker.ts"   # 指向 CF 入口
 compatibility_date = "2026-01-13"
 
 # 自定义运行时标识

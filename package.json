@@ -1,13 +1,13 @@
 {
   "name": "my-hono-app",
   "version": "1.0.0",
-  "main": "src/platforms/server.js",
+  "main": "src/platforms/server.ts",
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "dev:node": "tsx src/platforms/server.js",
-    "start:node": "NODE_ENV=prod node src/platforms/server.js",
+    "dev:node": "tsx src/platforms/server.ts",
+    "start:node": "NODE_ENV=prod node src/platforms/server.ts",
     "test": "vitest"
   },
   "keywords": [],
@@ -25,6 +25,7 @@
     "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260118.0",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^25.0.9",
     "nodemon": "^3.1.11",

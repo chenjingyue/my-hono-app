@@ -7,6 +7,8 @@
     "outDir": "./dist",                          // 编译输出目录
     "rootDir": "./src",                          // 源代码目录
 
+    "types": ["@cloudflare/workers-types"],
+
     /* 严格性 */
     "strict": true,                              // 启用所有严格类型检查
     "esModuleInterop": true,                     // 允许 import * as fs from 'fs' 等 CommonJS 互操作

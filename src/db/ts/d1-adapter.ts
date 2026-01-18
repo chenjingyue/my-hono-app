@@ -1,8 +1,7 @@
 // src/db/d1-adapter.ts
 import { IDatabaseAdapter, IStatement, IStatementResult } from './types.js';
-import {initAllTables} from "./init-tables.js";
+import { initAllTables } from './init-tables.js';
 
-// Cloudflare D1 的类型（官方未提供，我们简单声明）
 interface D1Result {
     success: true;
     meta: {
@@ -12,10 +11,11 @@ interface D1Result {
     };
 }
 
+// ✅ 使用官方类型（推荐）或保留你的简化声明，但要加泛型
 interface D1PreparedStatement {
     bind(...values: any[]): {
-        first(colName?: string): Promise<Record<string, any> | null>;
-        all(): Promise<{ results: Record<string, any>[] }>;
+        first<T = Record<string, any>>(colName?: string): Promise<T | null>;
+        all<T = Record<string, any>>(): Promise<{ results: T[] }>;
         run(): Promise<D1Result>;
     };
 }
@@ -26,12 +26,12 @@ interface D1Database {
 
 async function initTables(db: IDatabaseAdapter) {
     console.log('Initializing tables (D1)...');
-    await initAllTables(db)
+    await initAllTables(db);
     console.log('Tables initialized (D1)');
 }
 
 export class D1DatabaseAdapter implements IDatabaseAdapter {
-    private db: D1Database ;
+    private db: D1Database;
 
     private constructor(d1Instance: D1Database) {
         this.db = d1Instance;
@@ -51,15 +51,17 @@ export class D1DatabaseAdapter implements IDatabaseAdapter {
         return {
             bind: (...params: any[]) => {
                 const stmt = this.db.prepare(sql).bind(...params);
+
+                // ✅ 返回符合 IStatement 泛型签名的对象
                 return {
-                    first: () => stmt.first(),
-                    all: () => stmt.all(),
+                    first: <T = Record<string, any>>() => stmt.first<T>(),
+                    all: <T = Record<string, any>>() => stmt.all<T>(),
                     run: async (): Promise<IStatementResult> => {
                         const result = await stmt.run();
                         return {
                             success: true,
                             meta: {
-                                last_row_id: result.meta.last_row_id ?? -1, // D1 可能为 null
+                                last_row_id: result.meta.last_row_id ?? -1,
                                 changes: result.meta.changes,
                             },
                         };

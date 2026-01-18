@@ -9,8 +9,8 @@ export interface IStatementResult {
 }
 
 export interface IStatement {
-    first(): Promise<Record<string, any> | null>;
-    all(): Promise<{ results: Record<string, any>[] }>;
+    first<T = Record<string, any>>(): Promise<T | null>;
+    all<T = Record<string, any>>(): Promise<{ results: T[] }>;
     run(): Promise<IStatementResult>;
 }
 

@@ -1,7 +1,7 @@
 // src/middlewares/global-error-handler.ts
 
 import { Context } from 'hono';
-import { logger } from '../utils/log-core.js';
+import { logger } from '../logger/core.js';
 import  AppError from '../utils/AppError.js';
 
 
